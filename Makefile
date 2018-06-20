@@ -32,6 +32,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 # link
 .PHONY: build
 build: $(OBJS) $(LIBS)
+	-mkdir -p $(OUTPUT_DIR)
 	$(CXX) $(LDFLAGS) -o $(OUTPUT) $(OBJS) $(LIBS)
 
 .PHONY: all
@@ -44,11 +45,13 @@ clean:
 	$(RM) $(REL_DIR)/$(TARGET_EXEC)
 
 .PHONY: debug
+debug: OUTPUT_DIR = $(DBG_DIR)
 debug: OUTPUT = $(DBG_DIR)/$(TARGET_EXEC)
 debug: CPPFLAGS += -g3 -O0 -Wall -W
 debug: build
 
 .PHONY: release
+release: OUTPUT_DIR = $(REL_DIR)
 release: OUTPUT = $(REL_DIR)/$(TARGET_EXEC)
 release: CPPFLAGS += -Wall -W
 release: build
