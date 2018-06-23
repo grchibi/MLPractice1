@@ -1,6 +1,6 @@
 CXX ?= g++
 
-TARGET_EXEC ?= ql
+TARGET_EXEC ?= mlapp
 
 BUILD_DIR ?= ./build
 SRC_DIR ?= ./src
