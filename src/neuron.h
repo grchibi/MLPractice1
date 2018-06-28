@@ -3,22 +3,46 @@
 
 
 #include <array>
+#include <iostream>
 #include <string>
 
 
 namespace ML
 {
-    class Neuron
+    template <std::size_t INPNO>
+    class NeuronBase
     {
         std::string myName_;
-        int u_;
-        std::array<int, 2> weights_;
+        double u_;
+        std::array<double, INPNO> weights_;
 
+    protected:
+        virtual double transFunc(double in);
+    
     public:
-        Neuron(const char* name);
-        ~Neuron() {}
+        NeuronBase(const char* name);
+        virtual ~NeuronBase() {}
         
+        double calcOutput(const double (&inp)[INPNO]);
+        double calcOutput(const std::array<double, INPNO>& inp);
+        void init(const double (&ws)[INPNO], double u);
+        
+        void print(void);
     };
+    
+    template <std::size_t INPNO>
+    class NeuronWithStepFunc : public NeuronBase<INPNO>
+    {
+        protected:
+            double transFunc(double in) override;
+            
+        public:
+            NeuronWithStepFunc(const char* name) : NeuronBase<INPNO>(name) {}
+            ~NeuronWithStepFunc() {}
+            
+    };
+    
+    #include "neuron_impl.h"
 }
 
 
